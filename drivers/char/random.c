@@ -615,7 +615,7 @@ EXPORT_SYMBOL(get_random_bytes_arch);
  **********************************************************************/
 
 enum {
-	POOL_BITS = (BLAKE2S_HASH_SIZE * 8) * 4,
+	POOL_BITS = (BLAKE2S_HASH_SIZE * 64) * 4,
 	POOL_READY_BITS = POOL_BITS,
 	POOL_EARLY_BITS = POOL_READY_BITS / 2
 };
