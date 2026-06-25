@@ -1081,12 +1081,18 @@ static void bbr_set_state(struct sock *sk, u8 new_state)
 	}
 }
 
+/* Wrapper to fix the incompatible function pointer type for cong_control in Kernel 4.19 */
+static void bbr_main_wrapper(struct sock *sk, const struct rate_sample *rs)
+{
+	bbr_main(sk, rs);
+}
+
 static struct tcp_congestion_ops tcp_bbr_cong_ops __read_mostly = {
 	.flags		= TCP_CONG_NON_RESTRICTED,
 	.name		= "bbr",
 	.owner		= THIS_MODULE,
 	.init		= bbr_init,
-	.cong_control	= bbr_main,
+	.cong_control	= bbr_main_wrapper,
 	.sndbuf_expand	= bbr_sndbuf_expand,
 	.undo_cwnd	= bbr_undo_cwnd,
 	.cwnd_event	= bbr_cwnd_event,
