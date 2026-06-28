@@ -370,13 +370,13 @@
 #define USB2_MAX_CURRENT_MA			500
 #define USB3_MIN_CURRENT_MA			150
 #define USB3_MAX_CURRENT_MA			900
-#define DCP_MAX_CURRENT_MA			3300
+#define DCP_MAX_CURRENT_MA			2000
 #define SMB1351_IRQ_REG_COUNT			8
 #define SMB1351_CHG_PRE_MIN_MA			100
 #define SMB1351_CHG_FAST_MIN_MA			1000
 #define SMB1351_CHG_FAST_MAX_MA			3450
 #define SMB1351_CHG_PRE_SHIFT			5 
-#define SMB1351_CHG_FAST_SHIFT			5 //4
+#define SMB1351_CHG_FAST_SHIFT			4
 #define DEFAULT_BATT_CAPACITY			50
 #define DEFAULT_BATT_TEMP			250
 #define SUSPEND_CURRENT_MA			2
@@ -2363,8 +2363,7 @@ reschedule:
 
 static int smb1351_usbin_uv_handler(struct smb1351_charger *chip, u8 status)
 {	
-	//Fix fastcharging from jasmine sprout and also veux
-	smb1351_request_dpdm(chip, !status);
+	// smb1351_request_dpdm(chip, !status);
 
 	if (status) {
 		cancel_delayed_work_sync(&chip->hvdcp_det_work);
@@ -2379,6 +2378,7 @@ static int smb1351_usbin_uv_handler(struct smb1351_charger *chip, u8 status)
 
 	return 0;
 }
+
 
 static int smb1351_usbin_ov_handler(struct smb1351_charger *chip, u8 status)
 {
