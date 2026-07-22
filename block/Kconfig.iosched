@@ -10,21 +10,42 @@ config IOSCHED_COLUMBINA
       The Columbina I/O scheduler is a modified No-op scheduler
       optimized for low-latency gaming and read-priority tasks.
 
+config IOSCHED_ANXIETY
+	tristate "Anxiety I/O scheduler"
+	default y
+	---help---
+	  The Anxiety I/O scheduler prioritizes latency over everything
+		else. When a request comes in, it will use a lighweight
+		selection algorithm to swiftly process the current pending task.
+
 choice
     prompt "Default I/O scheduler"
-    default DEFAULT_COLUMBINA
+    default DEFAULT_DEADLINE
     help
       Select the I/O scheduler which will be used by default for all
       block devices.
 
     config DEFAULT_COLUMBINA
-        bool "Columbina" if IOSCHED_COLUMBINA=y
+        bool "Columbina" if IOSCHED_COLUMBINA
+
+    config DEFAULT_DEADLINE
+        bool "Deadline"
+        
+    config DEFAULT_ANXIETY
+		bool "Anxiety" if IOSCHED_ANXIETY=y
 endchoice
 
 config DEFAULT_IOSCHED
 	string
+	default "anxiety" if DEFAULT_ANXIETY
 	default "columbina" if DEFAULT_COLUMBINA
 	default "deadline" if DEFAULT_DEADLINE
+
+config IOSCHED_ADIOS
+	tristate "Adios I/O scheduler"
+	default y
+	---help---
+	  Adaptive Disk I/O Scheduler for flash storage.
 
 config MQ_IOSCHED_DEADLINE
 	tristate "MQ deadline I/O scheduler"
