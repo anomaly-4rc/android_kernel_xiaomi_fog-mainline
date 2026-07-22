@@ -2,10 +2,13 @@
 # script BY: anomaly_arc
 SECONDS=0 
 DEFCONFIG="vendor/fog-perf_defconfig"
-export KBUILD_BUILD_USER="YÃºzÃ©ð“‚€"
+export KBUILD_BUILD_USER="Ji¨¤n Y¨²z¨¦?"
 export KBUILD_BUILD_HOST="Local"
 export ARCH=arm64
 export SUBARCH=arm64
+
+ZIP_NAME="Obsidia-Kernel-NH0.1R-$(date +%Y%m%d-%H%M).zip"
+AK3_DIR="$(pwd)/../anykernel"
 
 TC_DIR="$(pwd)/../weebx-clang"
 export PATH="$TC_DIR/bin:$PATH"
@@ -57,6 +60,30 @@ if [ -f "$kernel" ]; then
                 echo -e "Warning: .dtb file not found in $dtb_dir"
                 echo -e "Failed to create Image.gz-dtb, please check your dts configuration."
         fi
+        
+        # ====================================================
+        # AUTO ZIP ANYKERNEL3 SECTION
+        # ====================================================
+        if [ -d "$AK3_DIR" ]; then
+                echo -e "\n-------------------------------------"
+                echo -e "Packing AnyKernel3 Zip..."
+                rm -f "$AK3_DIR"/Image* "$AK3_DIR"/dtb* "$AK3_DIR"/*.zip
+
+                cp "$output_final" "$AK3_DIR/Image.gz-dtb"
+                
+                cd "$AK3_DIR" || exit 1
+                zip -r9 "$ZIP_NAME" * -x .git README.md *placeholder
+                cd - >/dev/null || exit 1
+                
+                mv "$AK3_DIR/$ZIP_NAME" out/
+                
+                rm -f "$AK3_DIR/Image.gz-dtb"
+                
+                echo -e "ZIP Created Successfully: out/$ZIP_NAME"
+        else
+                echo -e "\nWarning: AnyKernel3 directory ($AK3_DIR) not found! Skipping zip creation."
+        fi
+        # ====================================================
         
         echo -e "-------------------------------------"
         echo -e "Ccache Status After Build:"
