@@ -7,7 +7,7 @@ export KBUILD_BUILD_HOST="Local"
 export ARCH=arm64
 export SUBARCH=arm64
 
-ZIP_NAME="Obsidia-Kernel-NH0.1R-$(date +%Y%m%d-%H%M).zip"
+ZIP_NAME="Obsidian-Kernel-NH0.1R-$(date +%Y%m%d-%H%M).zip"
 AK3_DIR="$(pwd)/../anykernel"
 
 TC_DIR="$(pwd)/../weebx-clang"
