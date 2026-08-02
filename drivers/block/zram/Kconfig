@@ -48,9 +48,10 @@ endchoice
 
 config ZRAM_DEF_COMP
 	string
-	default "zstd"
-	default "lz4" if ZRAM_DEF_COMP_LZ4
+	default lz4kdr if ZRAM_DEF_COMP_LZORLE
 	default "lzo-rle" if ZRAM_DEF_COMP_LZORLE
+	default "lz4" if ZRAM_DEF_COMP_LZ4
+	default "zstd" if ZRAM_DEF_COMP_ZSTD
 	default "lzo" if ZRAM_DEF_COMP_LZO
 	default "lz4hc" if ZRAM_DEF_COMP_LZ4HC
 	default "842" if ZRAM_DEF_COMP_842
