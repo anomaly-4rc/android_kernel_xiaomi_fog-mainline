@@ -8,7 +8,7 @@ export KBUILD_BUILD_HOST="Local"
 export ARCH=arm64
 export SUBARCH=arm64
 
-ZIP_NAME="Obsidian-Kernel-NH0.4R-$(date +%Y%m%d-%H%M).zip"
+ZIP_NAME="Obsidian-Kernel-NH0.5R-$(date +%Y%m%d-%H%M).zip"
 AK3_DIR="$(pwd)/../anykernel"
 
 export USE_CCACHE=1
