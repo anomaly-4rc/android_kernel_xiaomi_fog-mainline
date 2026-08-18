@@ -1029,7 +1029,7 @@ int kgsl_pwrscale_init(struct device *dev, const char *governor)
 		data->bus.num = 0;
 
 	devfreq = devfreq_add_device(dev, &pwrscale->gpu_profile.profile,
-			governor, pwrscale->gpu_profile.private_data);
+			"performance", pwrscale->gpu_profile.private_data);
 	if (IS_ERR(devfreq)) {
 		device->pwrscale.enabled = false;
 		return PTR_ERR(devfreq);
