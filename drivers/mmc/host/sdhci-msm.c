@@ -2210,7 +2210,7 @@ int sdhci_msm_parse_reset_data(struct device *dev,
 		msm_host->core_reset = NULL;
 	}
 
-	return ret;
+	return 0;
 }
 
 static int sdhci_msm_parse_regulator_info(struct device *dev,

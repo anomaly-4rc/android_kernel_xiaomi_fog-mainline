@@ -341,7 +341,7 @@ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv)
 				dev_dbg(device, "loading %s failed with error %d\n",
 					 path, rc);
 			else
-				dev_warn(device, "loading %s failed with error %d\n",
+				dev_dbg(device, "loading %s failed with error %d\n",
 					 path, rc);
 			continue;
 		}

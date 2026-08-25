@@ -49,34 +49,15 @@ int fsm_i2c_reg_read(fsm_dev_t *fsm_dev, uint8_t reg, uint16_t *pVal)
 		return -EINVAL;
 	}
 
-	// write register address.
-	msgs[0].addr = fsm_dev->i2c->addr;
-	msgs[0].flags = 0;
-	msgs[0].len = 1;
-	msgs[0].buf = &reg;
-	// read register buffer.
-	msgs[1].addr = fsm_dev->i2c->addr;
-	msgs[1].flags = I2C_M_RD;
-	msgs[1].len = 2;
-	msgs[1].buf = &buffer[0];
-
-	do {
-		mutex_lock(&fsm_dev->i2c_lock);
-		ret = i2c_transfer(fsm_dev->i2c->adapter, &msgs[0], ARRAY_SIZE(msgs));
-		mutex_unlock(&fsm_dev->i2c_lock);
-		if (ret != ARRAY_SIZE(msgs)) {
-			fsm_delay_ms(5);
-			retries++;
-		}
-	} while (ret != ARRAY_SIZE(msgs) && retries < FSM_I2C_RETRY);
+	mutex_lock(&fsm_dev->i2c_lock);
+	ret = i2c_transfer(fsm_dev->i2c->adapter, &msgs[0], ARRAY_SIZE(msgs));
+	mutex_unlock(&fsm_dev->i2c_lock);
 
 	if (ret != ARRAY_SIZE(msgs)) {
-		pr_err("read %02x transfer error: %d", reg, ret);
 		return -EIO;
 	}
 
 	*pVal = ((buffer[0] << 8) | buffer[1]);
-
 	return 0;
 }
 
@@ -110,7 +91,7 @@ int fsm_i2c_reg_write(fsm_dev_t *fsm_dev, uint8_t reg, uint16_t val)
 	} while (ret != ARRAY_SIZE(msgs) && retries < FSM_I2C_RETRY);
 
 	if (ret != ARRAY_SIZE(msgs)) {
-		pr_err("write %02x transfer error: %d", reg, ret);
+		pr_debug("write %02x transfer error: %d", reg, ret);
 		return -EIO;
 	}
 
@@ -132,7 +113,7 @@ int fsm_i2c_bulkwrite(fsm_dev_t *fsm_dev, uint8_t reg,
 	size = sizeof(uint8_t) + len;
 	buf = (uint8_t *)fsm_alloc_mem(size);
 	if (!buf) {
-		pr_err("alloc memery failed");
+		pr_debug("alloc memory failed");
 		return -ENOMEM;
 	}
 
@@ -153,7 +134,7 @@ int fsm_i2c_bulkwrite(fsm_dev_t *fsm_dev, uint8_t reg,
 	fsm_free_mem((void **)&buf);
 
 	if (ret != size) {
-		pr_err("write %02x transfer error: %d", reg, ret);
+		pr_debug("write %02x transfer error: %d", reg, ret);
 		return -EIO;
 	}
 
@@ -186,7 +167,7 @@ int fsm_vddd_on(struct device *dev)
 #if defined(CONFIG_REGULATOR)
 	g_fsm_vdd = regulator_get(dev, "fsm_vddd");
 	if (IS_ERR(g_fsm_vdd) != 0) {
-		pr_err("error getting fsm_vddd regulator");
+		pr_debug("error getting fsm_vddd regulator");
 		ret = PTR_ERR(g_fsm_vdd);
 		g_fsm_vdd = NULL;
 		return ret;
@@ -195,7 +176,7 @@ int fsm_vddd_on(struct device *dev)
 	regulator_set_voltage(g_fsm_vdd, 1800000, 1800000);
 	ret = regulator_enable(g_fsm_vdd);
 	if (ret < 0) {
-		pr_err("enabling fsm_vddd failed: %d", ret);
+		pr_debug("enabling fsm_vddd failed: %d", ret);
 	}
 #endif
 	cfg->vddd_on = 1;
@@ -529,7 +510,7 @@ static int fsm_i2c_remove(struct i2c_client *i2c)
 
 	pr_debug("enter");
 	if (fsm_dev == NULL) {
-		pr_err("bad parameter");
+		pr_debug("bad parameter");
 		return -EINVAL;
 	}
 	if (fsm_dev->fsm_wq) {
@@ -611,7 +592,7 @@ static int __init fsm_mod_init(void)
 
 	ret = fsm_i2c_init();
 	if (ret) {
-		pr_err("init fail: %d", ret);
+		pr_debug("init fail: %d", ret);
 		return ret;
 	}
 

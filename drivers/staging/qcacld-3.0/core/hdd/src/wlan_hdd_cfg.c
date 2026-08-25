@@ -245,7 +245,7 @@ QDF_STATUS hdd_update_mac_config(struct hdd_context *hdd_ctx)
 		 * request_firmware "fails" if the file is not found, which is a
 		 * valid setup for us, so log using debug instead of error
 		 */
-		hdd_debug("request_firmware failed; status:%d", status);
+		hdd_debug("request_firmware failed; status:%d\n", status);
 		return QDF_STATUS_E_FAILURE;
 	}
 

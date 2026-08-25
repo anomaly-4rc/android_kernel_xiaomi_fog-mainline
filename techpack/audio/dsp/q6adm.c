@@ -754,7 +754,7 @@ int adm_set_stereo_to_custom_stereo(int port_id, int copp_idx,
 		goto set_stereo_to_custom_stereo_return;
 	} else if (atomic_read(&this_adm.copp.stat
 				[port_idx][copp_idx]) > 0) {
-		pr_err("%s: DSP returned error[%s]\n", __func__,
+		pr_debug("%s: DSP returned error[%s]\n", __func__,
 			adsp_err_get_err_str(atomic_read(
 			&this_adm.copp.stat
 			[port_idx][copp_idx])));
@@ -853,7 +853,7 @@ int adm_set_custom_chmix_cfg(int port_id, int copp_idx,
 		goto exit;
 	} else if (atomic_read(&this_adm.copp.stat
 				[port_idx][copp_idx]) > 0) {
-		pr_err("%s: DSP returned error[%s]\n", __func__,
+		pr_debug("%s: DSP returned error[%s]\n", __func__,
 			adsp_err_get_err_str(atomic_read(
 				&this_adm.copp.stat
 				[port_idx][copp_idx])));
@@ -915,7 +915,7 @@ int adm_apr_send_pkt(void *data, wait_queue_head_t *wait,
 			atomic_read(copp_stat) >= 0,
 			time_out);
 		if (atomic_read(copp_stat) > 0) {
-			pr_err("%s: DSP returned error[%s]\n", __func__,
+			pr_debug("%s: DSP returned error[%s]\n", __func__,
 				adsp_err_get_err_str(atomic_read(copp_stat)));
 			ret = adsp_err_get_lnx_err_code(atomic_read(copp_stat));
 		} else	if (!ret) {
@@ -1215,7 +1215,7 @@ int adm_get_pp_topo_module_list_v2(int port_id, int copp_idx,
 		goto done;
 	}
 	if (atomic_read(copp_stat) > 0) {
-		pr_err("%s: DSP returned error[%s]\n", __func__,
+		pr_debug("%s: DSP returned error[%s]\n", __func__,
 		       adsp_err_get_err_str(atomic_read(copp_stat)));
 		ret = adsp_err_get_lnx_err_code(atomic_read(copp_stat));
 		goto done;
@@ -1913,7 +1913,7 @@ static int adm_memory_map_regions(phys_addr_t *buf_add, uint32_t mempool_id,
 		ret = -EINVAL;
 		goto fail_cmd;
 	} else if (atomic_read(&this_adm.adm_stat) > 0) {
-		pr_err("%s: DSP returned error[%s]\n",
+		pr_debug("%s: DSP returned error[%s]\n",
 				__func__, adsp_err_get_err_str(
 				atomic_read(&this_adm.adm_stat)));
 		ret = adsp_err_get_lnx_err_code(
@@ -1964,7 +1964,7 @@ static int adm_memory_unmap_regions(void)
 		ret = -EINVAL;
 		goto fail_cmd;
 	} else if (atomic_read(&this_adm.adm_stat) > 0) {
-		pr_err("%s: DSP returned error[%s]\n",
+		pr_debug("%s: DSP returned error[%s]\n",
 				__func__, adsp_err_get_err_str(
 				atomic_read(&this_adm.adm_stat)));
 		ret = adsp_err_get_lnx_err_code(
@@ -2083,7 +2083,7 @@ static void send_adm_custom_topology(void)
 			__func__, cal_block->cal_data.size);
 		goto unlock;
 	} else if (atomic_read(&this_adm.adm_stat) > 0) {
-		pr_err("%s: DSP returned error[%s]\n",
+		pr_debug("%s: DSP returned error[%s]\n",
 				__func__, adsp_err_get_err_str(
 				atomic_read(&this_adm.adm_stat)));
 		result = adsp_err_get_lnx_err_code(
@@ -2434,7 +2434,7 @@ int adm_connect_afe_port(int mode, int session_id, int port_id)
 		goto fail_cmd;
 	} else if (atomic_read(&this_adm.copp.stat
 				[port_idx][copp_idx]) > 0) {
-		pr_err("%s: DSP returned error[%s]\n",
+		pr_debug("%s: DSP returned error[%s]\n",
 				__func__, adsp_err_get_err_str(
 				atomic_read(&this_adm.copp.stat
 				[port_idx][copp_idx])));
@@ -3637,7 +3637,7 @@ int adm_matrix_map(int path, struct route_payload payload_map, int perf_mode,
 		ret = -EINVAL;
 		goto fail_cmd;
 	} else if (atomic_read(&this_adm.matrix_map_stat) > 0) {
-		pr_err("%s: DSP returned error[%s]\n", __func__,
+		pr_err("%s: *[%s]\n", __func__,
 			adsp_err_get_err_str(atomic_read(
 			&this_adm.matrix_map_stat)));
 		ret = adsp_err_get_lnx_err_code(

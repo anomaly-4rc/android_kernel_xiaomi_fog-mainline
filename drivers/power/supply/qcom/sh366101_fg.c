@@ -46,8 +46,8 @@
 #undef pr_debug
 #undef pr_info
 #if FG_DEBUG
-#define pr_debug pr_err
-#define pr_info pr_err
+#define pr_debug(fmt, ...) do { } while (0)
+#define pr_info(fmt, ...)  do { } while (0)
 #endif
 
 enum sh_fg_reg_idx {

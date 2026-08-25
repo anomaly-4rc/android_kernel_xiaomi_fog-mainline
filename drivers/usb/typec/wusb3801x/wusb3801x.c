@@ -632,7 +632,7 @@ int wusb3801_read_thread(void *data)
 {
 	wusb3801_thread *thread = (wusb3801_thread *)data;
 	struct wusb3801_chip *chip = thread->chip;
-	pr_err("%s thread start\n", __func__);
+	pr_info("%s thread start\n", __func__);
 	wusb3801_activate_thread(thread);
 	current->flags |= PF_NOFREEZE;
 	while(1){
@@ -2151,7 +2151,7 @@ static void wusb3801_work_handler(struct work_struct *work)
 										POWER_SUPPLY_PROP_TYPEC_CC_ORIENTATION,
 										&propval);
 	if (rc < 0)
-		  		pr_err("%s : set prop CC_ORIENTATION fail rc:%d\n", __func__, rc);
+		  		pr_info("%s : set prop CC_ORIENTATION fail rc:%d\n", __func__, rc);
 work_unlock:
 	enable_irq(chip->irq_gpio);
 }
@@ -2716,10 +2716,10 @@ static int wusb3801_probe(struct i2c_client *client,
 #if !defined(__MEDIATEK_PLATFORM__)
 	usb_psy = power_supply_get_by_name("usb");
 	if (!usb_psy) {
-		dev_err(cdev, "USB supply not found, deferring probe\n");
+		dev_err(cdev,"USB supply not found, deferring probe\n");
 		return -EPROBE_DEFER;
 	}
-		pr_err("USB supply found, deferring probe\n");
+		pr_info("USB supply found, deferring probe\n");
 #endif /*__MEDIATEK_PLATFORM__*/
 	if (!i2c_check_functionality(client->adapter,
 				I2C_FUNC_SMBUS_BYTE_DATA |
@@ -2773,7 +2773,7 @@ static int wusb3801_probe(struct i2c_client *client,
 		dev_err(cdev, "fail to init gpio\n");
 		goto err2;
 	}
-		pr_err("wusb3801 success to init gpio\n");
+		pr_info("wusb3801 success to init gpio\n");
 
 	chip->type      = WUSB3801_TYPE_INVALID;
 	chip->state     = WUSB3801_STATE_ERROR_RECOVERY;

@@ -583,7 +583,7 @@ static int dsi_panel_power_off(struct dsi_panel *panel)
 			DSI_WARN("%s: lcd-reset-gpio keep high\n", __func__);
 		else {
 			gpio_set_value(panel->reset_config.reset_gpio, 0);
-			DSI_ERR("%s: lcd-reset_gpio = 0\n", __func__);
+			// DSI_ERR("%s: lcd-reset_gpio = 0\n", __func__);
 		}
 		#else
 		gpio_set_value(panel->reset_config.reset_gpio, 0);

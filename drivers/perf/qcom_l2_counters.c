@@ -26,7 +26,7 @@
 
 #include <asm/local64.h>
 
-#define L2_COUNTERS_BUG		 "[l2 counters error]: "
+#define L2_COUNTERS_BUG		 "[l2_pmu]: "
 /*
  * Events id
  * 0xXXX here,
