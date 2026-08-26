@@ -17,7 +17,7 @@
 #include <trace/events/power.h>
 #include <linux/sched/sysctl.h>
 
-int sugov_boost_threshold = 150;
+int sugov_boost_threshold = 100;
 
 struct sugov_tunables {
 	struct gov_attr_set	attr_set;
@@ -969,7 +969,7 @@ static int sugov_init(struct cpufreq_policy *policy)
 	tunables->up_rate_limit_us = cpufreq_policy_transition_delay_us(policy);
 	tunables->down_rate_limit_us = cpufreq_policy_transition_delay_us(policy);
 	
-	tunables->up_rate_limit_us = 150;
+	tunables->up_rate_limit_us = 100;
     tunables->down_rate_limit_us = 50000;
 
 	policy->governor_data = sg_policy;
