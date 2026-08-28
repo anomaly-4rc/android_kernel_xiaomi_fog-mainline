@@ -16,7 +16,7 @@
 
 #define KGSL_MAX_POOLS 4
 #define KGSL_MAX_POOL_ORDER 9
-#define KGSL_MAX_RESERVED_PAGES 32768
+#define KGSL_MAX_RESERVED_PAGES 262144
 
 /**
  * struct kgsl_page_pool - Structure to hold information for the pool
