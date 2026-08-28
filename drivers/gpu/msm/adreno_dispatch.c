@@ -41,7 +41,7 @@ static unsigned int _dispatcher_q_inflight_hi = 256;
  * Minimum inflight for the multiple context case - this should sufficiently low
  * to allow for lower latency context switching
  */
-static unsigned int _dispatcher_q_inflight_lo = 128;
+static unsigned int _dispatcher_q_inflight_lo = 64;
 
 /* Command batch timeout (in milliseconds) */
 unsigned int adreno_drawobj_timeout = 2000;
